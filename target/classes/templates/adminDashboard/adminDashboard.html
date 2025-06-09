@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Админка</title>
+    <link th:href="@{/styles.css}" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<div th:replace="~{index::links}"></div>
+<main>
+    <div class="container mt-5">
+        <h1 class="mb-4">Панель управления</h1>
+
+        <div class="list-group">
+            <a th:href="@{/admin/users}" class="list-group-item list-group-item-action">
+                Пользователи
+            </a>
+            <a th:href="@{/admin/cars}" class="list-group-item list-group-item-action">
+                Автомобили
+            </a>
+            <a th:href="@{/admin/employees}" class="list-group-item list-group-item-action">
+                Сотрудники
+            </a>
+            <a th:href="@{/admin/bookings}" class="list-group-item list-group-item-action">
+                Бронь
+            </a>
+        </div>
+    </div>
+</main>
+<div th:replace="~{index::footCopy}"></div>
+</body>
+</html>

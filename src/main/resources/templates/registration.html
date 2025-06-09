@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Регистрация</title>
+    <link th:href="@{/styles.css}" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div th:replace="~{index::links}"></div>
+    <main>
+    <div class="container">
+        <div>
+            <a th:if="${regAttr}" href="/login">У меня уже есть аккаунт!</a>
+            <a th:unless="${regAttr}" href="/registration">У меня нет аккаунта!</a>
+        </div>
+        <section>
+            <form th:action="${SubmitVar}" method="post">
+                <div th:if="${regAttr}">
+                    <input type="text" name="lastname" placeholder="Фамилия" required>
+                    <input type="text" name="firstname" placeholder="Имя" required>
+                    <input type="text" name="patronymic" placeholder="Отчество">
+                    <input type="number" name="phone_number" placeholder="Номер телефона" required>
+                    <input type="email" name="email" placeholder="Email" required>
+                    <input type="password" name="password" placeholder="Пароль" required>
+                    <input type="submit" value="Регистрация">
+                </div>
+                <div th:unless="${regAttr}">
+                    <input type="email" name="email" placeholder="Email" required>
+                    <input type="password" name="password" placeholder="Пароль" required>
+                    <input type="submit" value="Вход">
+                    <div th:if="${param.requireAuth}">
+                        <p style='color:orangered;'>Сначала нужно войти в систему.</p>
+                    </div>
+                </div>
+            </form>
+            <div th:if="${successMessage}">
+                <p style='color:green;'>Спасибо, всё получилось! Теперь войдите используя свои данные.</p>
+            </div>
+        </section>
+    </div>
+    </main>
+    <div th:replace="~{index::footCopy}"></div>
+</body>
+</html>

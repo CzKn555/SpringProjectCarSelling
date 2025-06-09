@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>О нас</title>
+    <link th:href="@{/styles.css}" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div th:replace="~{index::links}"></div>
+
+  <main>
+  <div class="container">
+    <p>
+        Приветствуем вас в нашем автоцентре!
+        Мы — официальный дилер ведущих автомобильных марок,
+        предлагающий широкий выбор новых автомобилей с гарантией от производителя.
+        Мы работаем для того, чтобы ваша покупка была максимально комфортной и выгодной.
+        Оставьте заявку на сайте или посетите наш салон — подберём идеальный автомобиль именно для вас!
+    </p>
+  </div>
+  </main>
+  <div th:replace="~{index::footCopy}"></div>
+</body>
+</html>

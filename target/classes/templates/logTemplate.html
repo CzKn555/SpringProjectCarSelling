@@ -1,0 +1,6 @@
+<div sec:authorize="isAuthenticated()">
+  <span class="welcome-text">Добро пожаловать, <span sec:authentication="name"></span>!</span>
+  <form th:action="@{/logout}" method="post">
+    <button type="submit">Выйти</button>
+  </form>
+</div>

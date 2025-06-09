@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Диллерский центр - Главная</title>
+    <link th:href="@{/styles.css}" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header th:fragment="links">
+        <a href="/">Главная страница</a>
+        <a sec:authorize="isAnonymous()" href="/registration">Регистрация</a>
+        <a sec:authorize="isAnonymous()" href="/login">Вход</a>
+        <a sec:authorize="isAuthenticated()" href="/records">Записи пользователя</a>
+        <a sec:authorize="hasAnyRole('MANAGER', 'ADMIN')" href="/dashboard">Перейти в дашборд</a>
+        <a sec:authorize="hasRole('ADMIN')" href="/admin">Перейти в админку</a>
+        <a href="/about">О нас</a>
+        <div th:replace="~{logTemplate}"></div>
+    </header>
+    <main>
+    <div class="container">
+        <h1>Добро пожаловать в наш автосалон</h1>
+        <section class="search-form card">
+            <form th:action="@{/search}" method="get" class="mb-4">
+                <div class="col-md-3">
+                    <input type="text" name="make" placeholder="Марка" class="form-control">
+                </div>
+                <div class="col-md-3">
+                    <input type="text" name="brandModel" placeholder="Модель" class="form-control">
+                </div>
+                <div class="col-md-3">
+                    <input type="text" name="color" placeholder="Цвет" class="form-control">
+                </div>
+                <div class="col-md-3">
+                    <input type="number" name="minYear" placeholder="Год от" min="1900" max="2099" class="form-control">
+                </div>
+                <div class="col-md-3">
+                    <input type="number" name="maxYear" placeholder="Год до" min="1900" max="2099" class="form-control">
+                </div>
+                <div class="col-md-3">
+                    <input type="number" name="minPrice" placeholder="Цена от" min="0" class="form-control">
+                </div>
+                <div class="col-md-3">
+                    <input type="number" name="maxPrice" placeholder="Цена до" min="0" class="form-control">
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-primary w-100" >Поиск</button>
+                </div>
+            </form>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Марка</th>
+                        <th>Модель</th>
+                        <th>Год</th>
+                        <th>Цвет</th>
+                        <th>Цена</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="car : ${cars}">
+                            <td th:text="${car.brand}"></td>
+                            <td th:text="${car.model}"></td>
+                            <td th:text="${car.year}"></td>
+                            <td th:text="${car.color}"></td>
+                            <td th:text="${car.coast}"></td>
+                            <td>
+                                <form action="/search/select" method="get" class="test-drive-form">
+                                    <input type="hidden" name="carId" th:value="${car.id}">
+                                    <div class="show" style="display: none;">
+                                        <button type="submit">Подтвердить запись</button>
+                                    </div>
+                                    <button
+                                            type="button"
+                                            class="show-btn"
+                                            th:classappend="${countBookedCars >= 3 or carIds.contains(car.id)} ? 'disabled-btn' : ''"
+                                            th:text="${carIds.contains(car.id)} ? 'Забронировано' : (${countBookedCars >= 3} ? 'Лимит' : 'Запись на тест-драйв')"
+                                            th:disabled="${countBookedCars >= 3 or carIds.contains(car.id)}"
+                                    ></button>
+                                </form>
+                            </td>
+                        </tr>
+                        <div th:if="${search == 'yes' and cars.isEmpty()}">
+                            <p>Ничего не нашлось:(</p>
+                        </div>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+    </main>
+    <footer th:fragment="footCopy">
+        <p>© 2025 Автопродажи</p>
+    </footer>
+    <script th:src="@{buttonShow.js}"></script>
+</body>
+</html>

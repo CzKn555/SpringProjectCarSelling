@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Записи пользователя</title>
+    <link th:href="@{/styles.css}" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<div th:replace="~{index::links}"></div>
+<main>
+    <div class="container mt-4">
+        <h1>Мои записи на тест-драйв</h1>
+
+        <div th:if="${bookings.isEmpty()}">
+            <div class="alert alert-info">У вас нет активных записей</div>
+        </div>
+
+        <table class="table" th:unless="${bookings.isEmpty()}">
+            <thead>
+            <tr>
+                <th>Автомобиль</th>
+                <th>Дата и время</th>
+                <th>Статус</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="booking : ${bookings}">
+                <td>
+                    <span th:text="${booking.car.brand + ' ' + booking.car.model}"></span>
+                    (<span th:text="${booking.car.year}"></span>)
+                </td>
+                <td>
+                    <span th:text="${#temporals.format(booking.planed_time, 'dd.MM.yyyy HH:mm')}" th:if="${booking.planed_time}"></span>
+                    <span th:text="${'-'}" th:unless="${booking.planed_time}"></span>
+                </td>
+                <td>
+                    <span class="badge bg-success" th:if="${booking.planed_time}">Подтверждено</span>
+                    <span class="badge bg-success" th:unless="${booking.planed_time}">Ожидайте, вам скоро позвонят</span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+</main>
+<div th:replace="~{index::footCopy}"></div>
+</body>
+</html>

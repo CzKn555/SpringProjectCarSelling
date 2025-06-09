@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Дашборд</title>
+    <link th:href="@{/styles.css}" rel="stylesheet" />
+</head>
+<body>
+<div th:replace="~{index::links}"></div>
+  <main>
+    <div class="container mt-4">
+      <h1 class="mb-4">Управление записями</h1>
+
+      <!-- Сообщения -->
+      <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+      <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th>Пользователь</th>
+          <th>Автомобиль</th>
+          <th>Назначенное время</th>
+          <th></th>
+          <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <span th:if="${bookings.isEmpty()}">Здесь пока ничего нет.</span>
+        <tr th:each="booking : ${bookings}">
+          <td th:text="${booking.user.firstname + ' ' + booking.user.lastname}"></td>
+          <td th:text="${booking.car.brand + ' ' + booking.car.model}"></td>
+          <td th:text="${#temporals.format(booking.planed_time, 'yyyy-MM-dd HH:mm')}"></td>
+          <td>
+            <form th:action="@{/dashboard/update-time/{id}(id=${booking.id})}" method="post">
+              <div class="input-group">
+                <input type="datetime-local" class="form-control" name="planned_time" required>
+                <button type="submit" class="btn btn-primary">Назначить</button>
+              </div>
+            </form>
+          </td>
+          <td>
+            <form th:action="@{/dashboard/delete/{id}(id=${booking.id})}" method="post">
+              <button type="submit" class="btn btn-danger"
+                      onclick="return confirm('Удалить эту запись?')">Удалить</button>
+            </form>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+  <div th:replace="~{index::footCopy}"></div>
+</body>
+</html>
